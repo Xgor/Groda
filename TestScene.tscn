@@ -1,14 +1,15 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Frog.gd" type="Script" id=1]
 [ext_resource path="res://PlayerSprite2.png" type="Texture" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 25.965, 21.303 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=2]
 
 resource_name = "InAir"
 length = 1.0
@@ -27,9 +28,8 @@ tracks/0/keys = {
 "values": [ 3 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=3]
 
-resource_name = "Jump"
 length = 0.2
 loop = false
 step = 0.05
@@ -46,7 +46,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 
 resource_name = "Land"
 length = 0.1
@@ -65,9 +65,8 @@ tracks/0/keys = {
 "values": [ 2, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=5]
 
-resource_name = "idle"
 length = 1.0
 loop = true
 step = 0.05
@@ -84,7 +83,7 @@ tracks/0/keys = {
 "values": [ 4, 5, 6, 4, 0 ]
 }
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=6]
 
 custom_solver_bias = 0.0
 extents = Vector2( 869.498, 10 )
@@ -117,6 +116,8 @@ angular_damp = -1.0
 script = ExtResource( 1 )
 maxDistance = 300
 jumpPower = 3.2
+rotateMod = 1500
+rotateOffset = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Frog" index="0"]
 
@@ -129,7 +130,7 @@ texture = ExtResource( 2 )
 flip_h = true
 vframes = 2
 hframes = 4
-_sections_unfolded = [ "Animation", "Offset" ]
+_sections_unfolded = [ "Animation", "Offset", "Region" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Frog/Sprite" index="0"]
 
@@ -138,41 +139,20 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/InAir = SubResource( 6 )
-anims/Jump = SubResource( 2 )
-anims/Land = SubResource( 5 )
-anims/idle = SubResource( 3 )
+anims/InAir = SubResource( 2 )
+anims/Jump = SubResource( 3 )
+anims/Land = SubResource( 4 )
+anims/idle = SubResource( 5 )
 blend_times = [  ]
 
 [node name="OnGround" type="RayCast2D" parent="Frog" index="2"]
 
-position = Vector2( -26, 31 )
+position = Vector2( -27, 31 )
 enabled = true
 exclude_parent = true
 cast_to = Vector2( 46, 0 )
 collision_mask = 1
 _sections_unfolded = [ "Transform" ]
-
-[node name="Label" type="Label" parent="Frog" index="3"]
-
-visible = false
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -16.0
-margin_top = -47.0
-margin_right = 24.0
-margin_bottom = -33.0
-rect_pivot_offset = Vector2( 0, 0 )
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-text = "Test"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." index="1"]
 
@@ -188,9 +168,70 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" index="0"]
+[node name="Sprite" type="Sprite" parent="StaticBody2D" index="0"]
 
-shape = SubResource( 4 )
+position = Vector2( 110.871, 0 )
+scale = Vector2( 23.4647, 0.5 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" index="1"]
+
+shape = SubResource( 6 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="." index="2"]
+
+position = Vector2( 983.447, 270.965 )
+rotation = 1.5708
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+_sections_unfolded = [ "Transform" ]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D2" index="0"]
+
+position = Vector2( 110.871, 0 )
+scale = Vector2( 23.4647, 0.5 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" index="1"]
+
+shape = SubResource( 6 )
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="." index="3"]
+
+position = Vector2( 983.447, 270.965 )
+rotation = 1.5708
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+_sections_unfolded = [ "Transform" ]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D3" index="0"]
+
+position = Vector2( 110.871, 0 )
+scale = Vector2( 23.4647, 0.5 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3" index="1"]
+
+shape = SubResource( 6 )
 
 [connection signal="animation_finished" from="Frog/Sprite/AnimationPlayer" to="Frog" method="_on_AnimationPlayer_animation_finished"]
 
