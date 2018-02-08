@@ -10,7 +10,7 @@ source_file="res://PlayerSprite2.png"
 source_md5="d64709fd80924052401c522adb102178"
 
 dest_files=[ "res://.import/PlayerSprite2.png-bc64bf2e3e14519b5c742ec74165709c.stex" ]
-dest_md5="47bfc886f670d275769b21e419145843"
+dest_md5="46ef5fcd50c576b793a449ec49988d09"
 
 [params]
 
@@ -19,7 +19,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

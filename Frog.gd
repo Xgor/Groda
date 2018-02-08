@@ -64,9 +64,10 @@ func _process(delta):
 
 func _draw():
 	if charging:
-	#	draw_line(Vector2(0,0),get_global_mouse_position()-startMousePos,Color(1,1,1))
-		for t in range(0, 11):
-			draw_circle(getFuturePos(getImpulse(),(t/14.0)),5,Color(1,0,0))
+		var dotAmount = 11
+		for t in range(1, dotAmount):
+			
+			draw_circle(getFuturePos(getImpulse(),(t/14.0)),10*(dotAmount-t)/dotAmount,Color(1,0,0))
 			pass
 	pass
 
