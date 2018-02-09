@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Frog.gd" type="Script" id=1]
 [ext_resource path="res://PlayerSprite2.png" type="Texture" id=2]
@@ -6,10 +6,24 @@
 [ext_resource path="res://Water.gd" type="Script" id=4]
 [ext_resource path="res://White.png" type="Texture" id=5]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="Animation" id=9]
 
-custom_solver_bias = 0.0
-extents = Vector2( 25.965, 21.303 )
+resource_name = "Charge"
+length = 1.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 6, 5, 6 ]
+}
 
 [sub_resource type="Animation" id=2]
 
@@ -67,25 +81,6 @@ tracks/0/keys = {
 "values": [ 2, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=9]
-
-resource_name = "Swim"
-length = 0.3
-loop = true
-step = 0.15
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ 2, 3 ]
-}
-
 [sub_resource type="Animation" id=5]
 
 length = 1.0
@@ -132,7 +127,7 @@ collision_mask = 1
 mode = 2
 mass = 1.02041e-05
 friction = 0.8
-bounce = 0.0
+bounce = 0.1
 gravity_scale = 30.0
 custom_integrator = false
 continuous_cd = 2
@@ -147,14 +142,14 @@ angular_damp = -1.0
 script = ExtResource( 1 )
 _sections_unfolded = [ "Angular", "Collision", "Linear" ]
 maxDistance = 300
-jumpPower = 3.5
+jumpPower = 3.8
 rotateMod = 1500
-rotateOffset = 0.1
+rotateOffset = 0.4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Frog" index="0"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Frog" index="0"]
 
-position = Vector2( -2.40231, 8.79261 )
-shape = SubResource( 1 )
+build_mode = 0
+polygon = PoolVector2Array( 16.1815, -11.6314, 26.1117, 9.29243, 19.8716, 28.8959, -26.0403, 28.8519, -31.8378, 9.15736, -24.174, -11.4939 )
 
 [node name="Sprite" type="Sprite" parent="Frog" index="1"]
 
@@ -162,7 +157,7 @@ texture = ExtResource( 2 )
 flip_h = true
 vframes = 2
 hframes = 4
-frame = 3
+frame = 2
 _sections_unfolded = [ "Animation", "Offset", "Region", "Transform" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Frog/Sprite" index="0"]
@@ -172,10 +167,10 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
+anims/Charge = SubResource( 9 )
 anims/InAir = SubResource( 2 )
 anims/Jump = SubResource( 3 )
 anims/Land = SubResource( 4 )
-anims/Swim = SubResource( 9 )
 anims/idle = SubResource( 5 )
 blend_times = [  ]
 
@@ -548,7 +543,7 @@ angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
 script = ExtResource( 4 )
-_sections_unfolded = [ "Collision", "Transform" ]
+_sections_unfolded = [ "Transform" ]
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true

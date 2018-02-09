@@ -26,6 +26,7 @@ func _input(event):
 	if event.is_action_pressed("Jump") and on_ground.is_colliding():
 		startMousePos = get_global_mouse_position()
 		charging = true
+		anim.play("Charge")
 		pass
 	if event.is_action_released("Jump") and charging:
 		endMousePos = get_global_mouse_position()
@@ -47,12 +48,8 @@ func _process(delta):
 	else:
 		if abs(linear_velocity.x) > 2:
 			sprite.flip_h = linear_velocity.x > 2
-			
-	# Apply rotation
+	
 	sprite.rotation = spriteRotation()
-	
-	
-#	sprite.rotation = atan2(linear_velocity.x,linear_velocity.y)/ rotateMod-rotateOffset
 	
 	# if landing change to Land animation
 	if on_ground.is_colliding() and not inWater:
@@ -73,10 +70,10 @@ func _draw():
 
 func spriteRotation():
 	if inWater:
-		if linear_velocity.x> 0:
-			return atan2(linear_velocity.y,linear_velocity.x)-rotateOffset
+		if sprite.flip_h:
+			return rotateOffset
 		else:
-			return atan2(linear_velocity.y,-linear_velocity.x)-rotateOffset
+			return -rotateOffset
 		#-rotateOffset
 	
 	
@@ -84,7 +81,7 @@ func spriteRotation():
 		return 0
 	else:
 		if sprite.flip_h:
-			return linear_velocity.y / rotateMod-rotateOffset
+			return linear_velocity.y / rotateMod+rotateOffset
 		else:
 			return -linear_velocity.y / rotateMod-rotateOffset
 	
@@ -124,7 +121,7 @@ func _on_AnimationPlayer_animation_finished( anim_name ):
 func start_swimming():
 	inWater =true
 	gravity_scale = -1
-	linear_damp = 2
+	linear_damp = 3
 	anim.play("InAir")
 	pass
 
@@ -135,4 +132,6 @@ func end_swimming():
 #	anim.play("InAir")
 	pass
 
-
+func kill():
+	
+	pass
