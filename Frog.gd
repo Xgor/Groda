@@ -5,6 +5,8 @@ var startMousePos
 var endMousePos
 var gravity = 98
 var charging = false
+var inWater = false
+
 
 export var maxDistance = 300
 export var jumpPower = 1.5
@@ -47,16 +49,13 @@ func _process(delta):
 			sprite.flip_h = linear_velocity.x > 2
 			
 	# Apply rotation
-	if on_ground.is_colliding():
-		sprite.rotation = 0
-	else:
-		if sprite.flip_h:
-			sprite.rotation = linear_velocity.y / rotateMod-rotateOffset
-		else:
-			sprite.rotation = -linear_velocity.y / rotateMod-rotateOffset
+	sprite.rotation = spriteRotation()
+	
+	
+#	sprite.rotation = atan2(linear_velocity.x,linear_velocity.y)/ rotateMod-rotateOffset
 	
 	# if landing change to Land animation
-	if on_ground.is_colliding() :
+	if on_ground.is_colliding() and not inWater:
 		if get_node("Sprite").frame == 3:
 			anim.play("Land")
 		pass
@@ -67,9 +66,28 @@ func _draw():
 		var dotAmount = 11
 		for t in range(1, dotAmount):
 			
-			draw_circle(getFuturePos(getImpulse(),(t/14.0)),10*(dotAmount-t)/dotAmount,Color(1,0,0))
+			draw_circle(getFuturePos(getImpulse(),(t/14.0))
+			,10*(dotAmount-t)/dotAmount,Color(1,0,0))
 			pass
 	pass
+
+func spriteRotation():
+	if inWater:
+		if linear_velocity.x> 0:
+			return atan2(linear_velocity.y,linear_velocity.x)-rotateOffset
+		else:
+			return atan2(linear_velocity.y,-linear_velocity.x)-rotateOffset
+		#-rotateOffset
+	
+	
+	if on_ground.is_colliding():
+		return 0
+	else:
+		if sprite.flip_h:
+			return linear_velocity.y / rotateMod-rotateOffset
+		else:
+			return -linear_velocity.y / rotateMod-rotateOffset
+	
 
 func getFuturePos(impulseVec,time):
 	var final_pos = Vector2()
@@ -101,3 +119,20 @@ func _on_AnimationPlayer_animation_finished( anim_name ):
 	if anim_name == "Jump":
 		anim.play("InAir")
 	pass # replace with function body
+	
+
+func start_swimming():
+	inWater =true
+	gravity_scale = -1
+	linear_damp = 2
+	anim.play("InAir")
+	pass
+
+func end_swimming():
+	inWater = false
+	gravity_scale = 30
+	linear_damp = -1
+#	anim.play("InAir")
+	pass
+
+
