@@ -1,12 +1,20 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=25 format=2]
 
-[ext_resource path="res://Frog.gd" type="Script" id=1]
-[ext_resource path="res://PlayerSprite2.png" type="Texture" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
-[ext_resource path="res://Water.gd" type="Script" id=4]
-[ext_resource path="res://White.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/GameManager.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Frog.gd" type="Script" id=2]
+[ext_resource path="res://PlayerSprite2.png" type="Texture" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/CrumblingBlock.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/LevelCamera.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/Water.gd" type="Script" id=7]
+[ext_resource path="res://White.png" type="Texture" id=8]
+[ext_resource path="res://Scripts/Fly.gd" type="Script" id=9]
+[ext_resource path="res://Sprite/fly1.png" type="Texture" id=10]
+[ext_resource path="res://Sprite/fly2.png" type="Texture" id=11]
+[ext_resource path="res://Scripts/CamArea.gd" type="Script" id=12]
+[ext_resource path="res://Sprite/use8948-5.png" type="Texture" id=13]
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=1]
 
 resource_name = "Charge"
 length = 1.0
@@ -112,14 +120,36 @@ extents = Vector2( 61.2258, 15.9609 )
 [sub_resource type="RectangleShape2D" id=8]
 
 custom_solver_bias = 0.0
-extents = Vector2( 1100.19, 99 )
+extents = Vector2( 1100.19, 427.158 )
+
+[sub_resource type="CircleShape2D" id=9]
+
+custom_solver_bias = 0.0
+radius = 22.9779
+
+[sub_resource type="SpriteFrames" id=10]
+
+animations = [ {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "default",
+"speed": 7.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=11]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 583.663 )
 
 [node name="Node2D" type="Node2D" index="0"]
 
+script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
+levelId = 1
 
 [node name="Frog" type="RigidBody2D" parent="." index="0"]
 
+editor/display_folded = true
 position = Vector2( 132.646, 55.7716 )
 input_pickable = false
 collision_layer = 3
@@ -139,12 +169,14 @@ linear_velocity = Vector2( 0, 0 )
 linear_damp = -1.0
 angular_velocity = 0.0
 angular_damp = -1.0
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 _sections_unfolded = [ "Angular", "Collision", "Linear" ]
 maxDistance = 300
-jumpPower = 3.8
+jumpPower = 3.5
 rotateMod = 1500
 rotateOffset = 0.4
+waterDamp = 3.0
+waterGravity = -1
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Frog" index="0"]
 
@@ -153,7 +185,7 @@ polygon = PoolVector2Array( 16.1815, -11.6314, 26.1117, 9.29243, 19.8716, 28.895
 
 [node name="Sprite" type="Sprite" parent="Frog" index="1"]
 
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 flip_h = true
 vframes = 2
 hframes = 4
@@ -167,7 +199,7 @@ autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/Charge = SubResource( 9 )
+anims/Charge = SubResource( 1 )
 anims/InAir = SubResource( 2 )
 anims/Jump = SubResource( 3 )
 anims/Land = SubResource( 4 )
@@ -185,12 +217,10 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Floor" type="Node2D" parent="." index="1"]
 
-editor/display_folded = true
-
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor" index="0"]
 
 editor/display_folded = true
-position = Vector2( 176.666, 589.219 )
+position = Vector2( 260, 590 )
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
@@ -206,7 +236,7 @@ __meta__ = {
 
 position = Vector2( 110.871, 0 )
 scale = Vector2( 23.4647, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D" index="1"]
@@ -234,7 +264,7 @@ __meta__ = {
 
 position = Vector2( 110.871, 0 )
 scale = Vector2( 23.4647, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D2" index="1"]
@@ -262,7 +292,7 @@ __meta__ = {
 
 position = Vector2( 110.871, 0 )
 scale = Vector2( 23.4647, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D8" index="1"]
@@ -272,7 +302,7 @@ shape = SubResource( 6 )
 [node name="StaticBody2D3" type="StaticBody2D" parent="Floor" index="3"]
 
 editor/display_folded = true
-position = Vector2( 174.255, 451.79 )
+position = Vector2( 120, 820 )
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
@@ -288,7 +318,7 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D3" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D3" index="1"]
@@ -298,7 +328,7 @@ shape = SubResource( 7 )
 [node name="StaticBody2D4" type="StaticBody2D" parent="Floor" index="4"]
 
 editor/display_folded = true
-position = Vector2( 677.367, 400.306 )
+position = Vector2( 558.784, 353.541 )
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
@@ -314,7 +344,7 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D4" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D4" index="1"]
@@ -324,7 +354,7 @@ shape = SubResource( 7 )
 [node name="StaticBody2D12" type="StaticBody2D" parent="Floor" index="5"]
 
 editor/display_folded = true
-position = Vector2( 433.367, 431.306 )
+position = Vector2( 340, 750 )
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
@@ -340,17 +370,69 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D12" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D12" index="1"]
 
 shape = SubResource( 7 )
 
-[node name="StaticBody2D5" type="StaticBody2D" parent="Floor" index="6"]
+[node name="StaticBody2D14" type="StaticBody2D" parent="Floor" index="6"]
 
 editor/display_folded = true
-position = Vector2( 489.907, 137.648 )
+position = Vector2( 510, 600 )
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+_sections_unfolded = [ "Transform" ]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Floor/StaticBody2D14" index="0"]
+
+scale = Vector2( 2, 0.5 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D14" index="1"]
+
+shape = SubResource( 7 )
+
+[node name="StaticBody2D16" type="StaticBody2D" parent="Floor" index="7"]
+
+editor/display_folded = true
+position = Vector2( 320, 450 )
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+_sections_unfolded = [ "Transform" ]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Floor/StaticBody2D16" index="0"]
+
+scale = Vector2( 2, 0.5 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D16" index="1"]
+
+shape = SubResource( 7 )
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="Floor" index="8"]
+
+editor/display_folded = true
+position = Vector2( 439.802, 135.978 )
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
@@ -366,14 +448,14 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D5" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D5" index="1"]
 
 shape = SubResource( 7 )
 
-[node name="StaticBody2D11" type="StaticBody2D" parent="Floor" index="7"]
+[node name="StaticBody2D11" type="StaticBody2D" parent="Floor" index="9"]
 
 editor/display_folded = true
 position = Vector2( 25.4019, 207.971 )
@@ -392,41 +474,58 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D11" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D11" index="1"]
 
 shape = SubResource( 7 )
 
-[node name="StaticBody2D6" type="StaticBody2D" parent="Floor" index="8"]
+[node name="CrumblingBlock" type="RigidBody2D" parent="Floor" index="10"]
 
-editor/display_folded = true
-position = Vector2( 853.017, 268.244 )
+position = Vector2( 866.949, 310.703 )
 rotation = -0.0915435
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
+mode = 0
+mass = 1.0
 friction = 1.0
 bounce = 0.0
-_sections_unfolded = [ "Transform" ]
-__meta__ = {
-"_edit_group_": true
-}
+gravity_scale = 1.0
+custom_integrator = true
+continuous_cd = 0
+contacts_reported = 5
+contact_monitor = true
+sleeping = false
+can_sleep = true
+linear_velocity = Vector2( 0, 0 )
+linear_damp = -1.0
+angular_velocity = 0.0
+angular_damp = -1.0
+script = ExtResource( 5 )
+_sections_unfolded = [ "Transform", "collision" ]
+shakePow = 5.0
 
-[node name="Sprite" type="Sprite" parent="Floor/StaticBody2D6" index="0"]
-
-scale = Vector2( 2, 0.5 )
-texture = ExtResource( 3 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D6" index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/CrumblingBlock" index="0"]
 
 shape = SubResource( 7 )
 
-[node name="StaticBody2D7" type="StaticBody2D" parent="Floor" index="9"]
+[node name="Sprite" type="Sprite" parent="Floor/CrumblingBlock" index="1"]
+
+modulate = Color( 0.902344, 0.465271, 0, 1 )
+scale = Vector2( 2, 0.5 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Timer" type="Timer" parent="Floor/CrumblingBlock" index="2"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="Floor" index="11"]
 
 editor/display_folded = true
 position = Vector2( 298.026, 214.377 )
@@ -446,17 +545,17 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D7" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D7" index="1"]
 
 shape = SubResource( 7 )
 
-[node name="StaticBody2D10" type="StaticBody2D" parent="Floor" index="10"]
+[node name="StaticBody2D10" type="StaticBody2D" parent="Floor" index="12"]
 
 editor/display_folded = true
-position = Vector2( 639.486, 178.166 )
+position = Vector2( 662.489, 253.589 )
 rotation = 0.287239
 input_pickable = false
 collision_layer = 1
@@ -473,14 +572,14 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D10" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D10" index="1"]
 
 shape = SubResource( 7 )
 
-[node name="StaticBody2D9" type="StaticBody2D" parent="Floor" index="11"]
+[node name="StaticBody2D9" type="StaticBody2D" parent="Floor" index="13"]
 
 editor/display_folded = true
 position = Vector2( 40.1607, 544.029 )
@@ -500,18 +599,20 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D9" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D9" index="1"]
 
 shape = SubResource( 7 )
 
-[node name="Camera2D" type="Camera2D" parent="." index="2"]
+[node name="LevelCamera" type="Camera2D" parent="." index="2" groups=[
+"LevelCamera",
+]]
 
 anchor_mode = 0
 rotating = false
-current = false
+current = true
 zoom = Vector2( 1, 1 )
 limit_left = -10000000
 limit_top = -10000000
@@ -531,10 +632,21 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
+script = ExtResource( 6 )
+
+[node name="Tween" type="Tween" parent="LevelCamera" index="0"]
+
+repeat = false
+playback_process_mode = 1
+playback_speed = 1.0
+playback/active = false
+playback/repeat = false
+playback/speed = 1.0
 
 [node name="Water" type="Area2D" parent="." index="3"]
 
-position = Vector2( 8, 524 )
+editor/display_folded = true
+position = Vector2( 100, 520 )
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -542,19 +654,18 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = ExtResource( 4 )
+script = ExtResource( 7 )
 _sections_unfolded = [ "Transform" ]
 __meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
+"_edit_group_": true
 }
 
 [node name="Sprite" type="Sprite" parent="Water" index="0"]
 
 modulate = Color( 0.111618, 0.320852, 0.816406, 0.364627 )
-position = Vector2( 401.686, 31.8182 )
-scale = Vector2( 40.5938, 6.36364 )
-texture = ExtResource( 5 )
+position = Vector2( 401.686, 297.829 )
+scale = Vector2( 40.5938, 22.9893 )
+texture = ExtResource( 8 )
 _sections_unfolded = [ "Offset", "Visibility" ]
 __meta__ = {
 "_edit_lock_": true
@@ -562,16 +673,121 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Water" index="1"]
 
-position = Vector2( 410, 31 )
+position = Vector2( 354.316, 349.698 )
 shape = SubResource( 8 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Fly" type="Area2D" parent="." index="4"]
+
+editor/display_folded = true
+position = Vector2( 56.0046, 133.269 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fly" index="0"]
+
+position = Vector2( 0.387421, 1.35598 )
+shape = SubResource( 9 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Fly" index="1"]
+
+scale = Vector2( 0.066, 0.066 )
+frames = SubResource( 10 )
+animation = "default"
+frame = 1
+playing = true
+flip_h = true
+_sections_unfolded = [ "Transform" ]
+
+[node name="CamAreas" type="Node2D" parent="." index="5"]
+
+position = Vector2( 1569.84, 67.9065 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CamArea" type="Area2D" parent="CamAreas" index="0"]
+
+position = Vector2( 777.047, -3.05176e-05 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_group_": true
+}
+pos = Vector2( 500, 0 )
+camerZoom = Vector2( 1, 1 )
+time = 0.5
+transition = 0
+tweenEase = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CamAreas/CamArea" index="0"]
+
+shape = SubResource( 11 )
+
+[node name="CamArea2" type="Area2D" parent="CamAreas" index="1"]
+
+position = Vector2( 650.612, -13.2201 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_group_": true
+}
+pos = Vector2( 0, 0 )
+camerZoom = Vector2( 1, 1 )
+time = 0.3
+transition = 0
+tweenEase = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CamAreas/CamArea2" index="0"]
+
+shape = SubResource( 11 )
+
+[node name="Background" type="Sprite" parent="." index="6"]
+
+position = Vector2( 516.178, 197.51 )
+scale = Vector2( 1.64172, 1.64172 )
+z_index = -1000
+texture = ExtResource( 13 )
+_sections_unfolded = [ "Z Index" ]
 __meta__ = {
 "_edit_lock_": true
 }
 
 [connection signal="animation_finished" from="Frog/Sprite/AnimationPlayer" to="Frog" method="_on_AnimationPlayer_animation_finished"]
 
+[connection signal="body_entered" from="Floor/CrumblingBlock" to="Floor/CrumblingBlock" method="_on_CrumblingBlock_body_entered"]
+
+[connection signal="body_shape_entered" from="Floor/CrumblingBlock" to="Floor/CrumblingBlock" method="_on_CrumblingBlock_body_shape_entered"]
+
+[connection signal="timeout" from="Floor/CrumblingBlock/Timer" to="Floor/CrumblingBlock" method="_on_Timer_timeout"]
+
 [connection signal="body_entered" from="Water" to="Water" method="_on_Water_body_entered"]
 
 [connection signal="body_exited" from="Water" to="Water" method="_on_Water_body_exited"]
+
+[connection signal="body_entered" from="Fly" to="Fly" method="_on_Fly_body_entered"]
 
 
