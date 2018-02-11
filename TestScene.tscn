@@ -1,221 +1,64 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scripts/GameManager.gd" type="Script" id=1]
-[ext_resource path="res://Scripts/Frog.gd" type="Script" id=2]
-[ext_resource path="res://PlayerSprite2.png" type="Texture" id=3]
-[ext_resource path="res://icon.png" type="Texture" id=4]
-[ext_resource path="res://Scripts/CrumblingBlock.gd" type="Script" id=5]
-[ext_resource path="res://Scripts/LevelCamera.gd" type="Script" id=6]
-[ext_resource path="res://Scripts/Water.gd" type="Script" id=7]
-[ext_resource path="res://White.png" type="Texture" id=8]
-[ext_resource path="res://Scripts/Fly.gd" type="Script" id=9]
-[ext_resource path="res://Sprite/fly1.png" type="Texture" id=10]
-[ext_resource path="res://Sprite/fly2.png" type="Texture" id=11]
-[ext_resource path="res://Scripts/CamArea.gd" type="Script" id=12]
-[ext_resource path="res://Sprite/use8948-5.png" type="Texture" id=13]
+[ext_resource path="res://Objects/Frog.tscn" type="PackedScene" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/CrumblingBlock.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/LevelCamera.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Water.gd" type="Script" id=6]
+[ext_resource path="res://White.png" type="Texture" id=7]
+[ext_resource path="res://Scripts/Fly.gd" type="Script" id=8]
+[ext_resource path="res://Sprite/fly1.png" type="Texture" id=9]
+[ext_resource path="res://Sprite/fly2.png" type="Texture" id=10]
+[ext_resource path="res://Scripts/CamArea.gd" type="Script" id=11]
+[ext_resource path="res://Sprite/use8948-5.png" type="Texture" id=12]
+[ext_resource path="res://Objects/Spike.tscn" type="PackedScene" id=13]
 
-[sub_resource type="Animation" id=1]
-
-resource_name = "Charge"
-length = 1.0
-loop = true
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ 6, 5, 6 ]
-}
-
-[sub_resource type="Animation" id=2]
-
-resource_name = "InAir"
-length = 1.0
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 3 ]
-}
-
-[sub_resource type="Animation" id=3]
-
-length = 0.2
-loop = false
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.15 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3 ]
-}
-
-[sub_resource type="Animation" id=4]
-
-resource_name = "Land"
-length = 0.1
-loop = false
-step = 0.03
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.03, 0.06 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ 2, 1, 0 ]
-}
-
-[sub_resource type="Animation" id=5]
-
-length = 1.0
-loop = true
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 0.6, 0.7, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 4, 5, 6, 4, 0 ]
-}
-
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 869.498, 10 )
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
 extents = Vector2( 61.2258, 15.9609 )
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 1100.19, 427.158 )
 
-[sub_resource type="CircleShape2D" id=9]
+[sub_resource type="CircleShape2D" id=4]
 
 custom_solver_bias = 0.0
 radius = 22.9779
 
-[sub_resource type="SpriteFrames" id=10]
+[sub_resource type="SpriteFrames" id=5]
 
 animations = [ {
-"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
+"frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "default",
 "speed": 7.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=6]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 583.663 )
 
-[node name="Node2D" type="Node2D" index="0"]
+[node name="Node2D" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform" ]
 levelId = 1
 
-[node name="Frog" type="RigidBody2D" parent="." index="0"]
-
-editor/display_folded = true
-position = Vector2( 132.646, 55.7716 )
-input_pickable = false
-collision_layer = 3
-collision_mask = 1
-mode = 2
-mass = 1.02041e-05
-friction = 0.8
-bounce = 0.1
-gravity_scale = 30.0
-custom_integrator = false
-continuous_cd = 2
-contacts_reported = 2
-contact_monitor = true
-sleeping = false
-can_sleep = true
-linear_velocity = Vector2( 0, 0 )
-linear_damp = -1.0
-angular_velocity = 0.0
-angular_damp = -1.0
-script = ExtResource( 2 )
-_sections_unfolded = [ "Angular", "Collision", "Linear" ]
-maxDistance = 300
-jumpPower = 3.5
-rotateMod = 1500
-rotateOffset = 0.4
-waterDamp = 3.0
-waterGravity = -1
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Frog" index="0"]
-
-build_mode = 0
-polygon = PoolVector2Array( 16.1815, -11.6314, 26.1117, 9.29243, 19.8716, 28.8959, -26.0403, 28.8519, -31.8378, 9.15736, -24.174, -11.4939 )
-
-[node name="Sprite" type="Sprite" parent="Frog" index="1"]
-
-texture = ExtResource( 3 )
-flip_h = true
-vframes = 2
-hframes = 4
-frame = 2
-_sections_unfolded = [ "Animation", "Offset", "Region", "Transform" ]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Frog/Sprite" index="0"]
-
-root_node = NodePath("..")
-autoplay = ""
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-playback_speed = 1.0
-anims/Charge = SubResource( 1 )
-anims/InAir = SubResource( 2 )
-anims/Jump = SubResource( 3 )
-anims/Land = SubResource( 4 )
-anims/idle = SubResource( 5 )
-blend_times = [  ]
-
-[node name="OnGround" type="RayCast2D" parent="Frog" index="2"]
-
-position = Vector2( -27, 31 )
-enabled = true
-exclude_parent = true
-cast_to = Vector2( 46, 0 )
-collision_mask = 1
-_sections_unfolded = [ "Transform" ]
+[node name="Frog" parent="." index="0" instance=ExtResource( 2 )]
 
 [node name="Floor" type="Node2D" parent="." index="1"]
+
+editor/display_folded = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor" index="0"]
 
@@ -236,12 +79,12 @@ __meta__ = {
 
 position = Vector2( 110.871, 0 )
 scale = Vector2( 23.4647, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D" index="1"]
 
-shape = SubResource( 6 )
+shape = SubResource( 1 )
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="Floor" index="1"]
 
@@ -264,12 +107,12 @@ __meta__ = {
 
 position = Vector2( 110.871, 0 )
 scale = Vector2( 23.4647, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D2" index="1"]
 
-shape = SubResource( 6 )
+shape = SubResource( 1 )
 
 [node name="StaticBody2D8" type="StaticBody2D" parent="Floor" index="2"]
 
@@ -292,12 +135,12 @@ __meta__ = {
 
 position = Vector2( 110.871, 0 )
 scale = Vector2( 23.4647, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D8" index="1"]
 
-shape = SubResource( 6 )
+shape = SubResource( 1 )
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="Floor" index="3"]
 
@@ -318,12 +161,12 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D3" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D3" index="1"]
 
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="StaticBody2D4" type="StaticBody2D" parent="Floor" index="4"]
 
@@ -344,12 +187,12 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D4" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D4" index="1"]
 
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="StaticBody2D12" type="StaticBody2D" parent="Floor" index="5"]
 
@@ -370,12 +213,12 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D12" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D12" index="1"]
 
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="StaticBody2D14" type="StaticBody2D" parent="Floor" index="6"]
 
@@ -396,12 +239,12 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D14" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D14" index="1"]
 
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="StaticBody2D16" type="StaticBody2D" parent="Floor" index="7"]
 
@@ -422,12 +265,12 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D16" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D16" index="1"]
 
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="StaticBody2D5" type="StaticBody2D" parent="Floor" index="8"]
 
@@ -448,12 +291,12 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D5" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D5" index="1"]
 
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="StaticBody2D11" type="StaticBody2D" parent="Floor" index="9"]
 
@@ -474,12 +317,12 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D11" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D11" index="1"]
 
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="CrumblingBlock" type="RigidBody2D" parent="Floor" index="10"]
 
@@ -503,19 +346,19 @@ linear_velocity = Vector2( 0, 0 )
 linear_damp = -1.0
 angular_velocity = 0.0
 angular_damp = -1.0
-script = ExtResource( 5 )
+script = ExtResource( 4 )
 _sections_unfolded = [ "Transform", "collision" ]
 shakePow = 5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/CrumblingBlock" index="0"]
 
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Floor/CrumblingBlock" index="1"]
 
 modulate = Color( 0.902344, 0.465271, 0, 1 )
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 
 [node name="Timer" type="Timer" parent="Floor/CrumblingBlock" index="2"]
@@ -545,12 +388,12 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D7" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D7" index="1"]
 
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="StaticBody2D10" type="StaticBody2D" parent="Floor" index="12"]
 
@@ -572,12 +415,12 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D10" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D10" index="1"]
 
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="StaticBody2D9" type="StaticBody2D" parent="Floor" index="13"]
 
@@ -599,12 +442,12 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="Floor/StaticBody2D9" index="0"]
 
 scale = Vector2( 2, 0.5 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D9" index="1"]
 
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="LevelCamera" type="Camera2D" parent="." index="2" groups=[
 "LevelCamera",
@@ -632,7 +475,7 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = false
 editor_draw_drag_margin = false
-script = ExtResource( 6 )
+script = ExtResource( 5 )
 
 [node name="Tween" type="Tween" parent="LevelCamera" index="0"]
 
@@ -654,7 +497,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = ExtResource( 7 )
+script = ExtResource( 6 )
 _sections_unfolded = [ "Transform" ]
 __meta__ = {
 "_edit_group_": true
@@ -665,7 +508,7 @@ __meta__ = {
 modulate = Color( 0.111618, 0.320852, 0.816406, 0.364627 )
 position = Vector2( 401.686, 297.829 )
 scale = Vector2( 40.5938, 22.9893 )
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 _sections_unfolded = [ "Offset", "Visibility" ]
 __meta__ = {
 "_edit_lock_": true
@@ -674,7 +517,7 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Water" index="1"]
 
 position = Vector2( 354.316, 349.698 )
-shape = SubResource( 8 )
+shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -690,7 +533,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -698,14 +541,13 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Fly" index="0"]
 
 position = Vector2( 0.387421, 1.35598 )
-shape = SubResource( 9 )
+shape = SubResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Fly" index="1"]
 
 scale = Vector2( 0.066, 0.066 )
-frames = SubResource( 10 )
+frames = SubResource( 5 )
 animation = "default"
-frame = 1
 playing = true
 flip_h = true
 _sections_unfolded = [ "Transform" ]
@@ -727,7 +569,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = ExtResource( 12 )
+script = ExtResource( 11 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -739,7 +581,7 @@ tweenEase = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CamAreas/CamArea" index="0"]
 
-shape = SubResource( 11 )
+shape = SubResource( 6 )
 
 [node name="CamArea2" type="Area2D" parent="CamAreas" index="1"]
 
@@ -751,7 +593,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 audio_bus_override = false
 audio_bus_name = "Master"
-script = ExtResource( 12 )
+script = ExtResource( 11 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -763,20 +605,20 @@ tweenEase = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CamAreas/CamArea2" index="0"]
 
-shape = SubResource( 11 )
+shape = SubResource( 6 )
 
 [node name="Background" type="Sprite" parent="." index="6"]
 
 position = Vector2( 516.178, 197.51 )
 scale = Vector2( 1.64172, 1.64172 )
 z_index = -1000
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 _sections_unfolded = [ "Z Index" ]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[connection signal="animation_finished" from="Frog/Sprite/AnimationPlayer" to="Frog" method="_on_AnimationPlayer_animation_finished"]
+[node name="Spike" parent="." index="7" instance=ExtResource( 13 )]
 
 [connection signal="body_entered" from="Floor/CrumblingBlock" to="Floor/CrumblingBlock" method="_on_CrumblingBlock_body_entered"]
 

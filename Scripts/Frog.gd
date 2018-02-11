@@ -135,5 +135,5 @@ func end_swimming():
 	pass
 
 func kill():
-	
+	queue_free()
 	pass
