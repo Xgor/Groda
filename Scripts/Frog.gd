@@ -135,5 +135,5 @@ func end_swimming():
 	pass
 
 func kill():
-	queue_free()
+	get_tree().reload_current_scene()
 	pass

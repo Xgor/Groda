@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scripts/GameManager.gd" type="Script" id=1]
 [ext_resource path="res://Objects/Frog.tscn" type="PackedScene" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Scripts/CamArea.gd" type="Script" id=11]
 [ext_resource path="res://Sprite/use8948-5.png" type="Texture" id=12]
 [ext_resource path="res://Objects/Spike.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Objects/ConveyorBelt.tscn" type="PackedScene" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -453,6 +454,7 @@ shape = SubResource( 2 )
 "LevelCamera",
 ]]
 
+editor/display_folded = true
 anchor_mode = 0
 rotating = false
 current = true
@@ -548,12 +550,14 @@ shape = SubResource( 4 )
 scale = Vector2( 0.066, 0.066 )
 frames = SubResource( 5 )
 animation = "default"
+frame = 1
 playing = true
 flip_h = true
 _sections_unfolded = [ "Transform" ]
 
 [node name="CamAreas" type="Node2D" parent="." index="5"]
 
+editor/display_folded = true
 position = Vector2( 1569.84, 67.9065 )
 __meta__ = {
 "_edit_group_": true
@@ -619,6 +623,11 @@ __meta__ = {
 }
 
 [node name="Spike" parent="." index="7" instance=ExtResource( 13 )]
+
+[node name="ConveyorBelt2" parent="." index="8" instance=ExtResource( 14 )]
+
+position = Vector2( 332.718, 390.851 )
+speed = 100
 
 [connection signal="body_entered" from="Floor/CrumblingBlock" to="Floor/CrumblingBlock" method="_on_CrumblingBlock_body_entered"]
 
