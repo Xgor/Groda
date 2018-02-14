@@ -6,7 +6,10 @@ var endMousePos
 var gravity = 98
 var charging = false
 var inWater = false
-
+var ground = null
+var groundPrevPos =Vector2()
+var conveyorMovement = 0
+var movingPlaformMovement = Vector2(2,0)
 
 export var maxDistance = 300
 export var jumpPower = 1.5
@@ -41,7 +44,40 @@ func _input(event):
 		pass
 	pass
 
+func _integrate_forces(state):
+	if not ground == null:
+		var globalPos = ground.global_position
+		movingPlaformMovement = globalPos-groundPrevPos
+		groundPrevPos = globalPos
+	
+	
+	var xform = state.get_transform()
+	xform.origin.x += conveyorMovement
+	xform.origin += movingPlaformMovement
+	state.set_transform(xform)
+	pass
+
+func _physics_process(delta):
+	if on_ground.is_colliding():
+		
+		if not ground == on_ground.get_collider():
+			ground = on_ground.get_collider()
+			groundPrevPos = ground.global_position
+			#gravity_scale = 0
+			pass
+	#	else:
+	else:
+		ground = null
+		groundPrevPos = Vector2()
+
+
 func _process(delta):
+	
+	if on_ground.is_colliding():
+		var coll =on_ground.get_collider()
+		if not coll.is_a_parent_of(self):
+			
+			pass
 	
 	# Apply sprite flip
 	if Input.is_action_pressed("Jump") and charging:

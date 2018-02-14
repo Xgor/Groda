@@ -14,15 +14,21 @@ func _ready():
 	pass
 
 func _process(delta):
-	if isFalling:
-		position += Vector2(0,15)
+#	if isFalling:
+		#position += Vector2(0,15)
 	
 	if shaking:
 		get_node("Sprite").position = Vector2(rand_range(0,shakePow)-shakePow/2,rand_range(0,shakePow)-shakePow/2)
 	
 	
 	pass
-
+func _integrate_forces(state):
+	if isFalling:
+		var xform = state.get_transform()
+		xform.origin.y += 25
+#		xform.origin = position
+		state.set_transform(xform)
+	pass
 func hit_block(body):
 	pass
 

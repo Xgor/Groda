@@ -98,7 +98,6 @@ tracks/0/keys = {
 
 [node name="Frog" type="RigidBody2D"]
 
-editor/display_folded = true
 position = Vector2( 132.646, 55.7716 )
 input_pickable = false
 collision_layer = 3
@@ -157,7 +156,7 @@ blend_times = [  ]
 
 [node name="OnGround" type="RayCast2D" parent="." index="2"]
 
-position = Vector2( -27, 31 )
+position = Vector2( -27, 35 )
 enabled = true
 exclude_parent = true
 cast_to = Vector2( 46, 0 )

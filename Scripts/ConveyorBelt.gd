@@ -1,9 +1,5 @@
 extends StaticBody2D
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-#var (float) currFrame
 var frogFriction = 0.8
 var movingObject =null
 export var speed = 30
@@ -11,20 +7,13 @@ export var speed = 30
 onready var sprite = $Sprite
 var currFrame = 0.0
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
+	get_node("Area2D").gravity = -speed
 	pass
 
 func _process(delta):
-	
+	# TO FIX MAKE CONVEYOR BELT NOT SLIDING
 	if not movingObject == null:
 		if movingObject.linear_velocity.x > -speed:
-			#movingObject.linear_velocity.x = -speed
-		#	movingObject.friction = frogFriction
-	#		pass
-	#	else:
-		#	movingObject.friction = 0
-			
 			pass
 		
 	
@@ -40,15 +29,19 @@ func _process(delta):
 func _on_Area2D_body_entered( body ):
 	if body.name == "Frog":
 		movingObject = body
-		frogFriction = body.friction
-		body.friction = 0
+		body.conveyorMovement = -speed/60.0
 		
-		body.linear_velocity.x = -speed
+		#frogFriction = body.friction
+		#body.friction = 1
+		#body.linear_damp = 44
+	#	body.linear_velocity.x = -speed
 	pass # replace with function body
 
 
 func _on_Area2D_body_exited( body ):
 	if body.name == "Frog":
 		movingObject = null
-		body.friction = frogFriction
+		body.conveyorMovement = 0
+		#body.linear_damp = -1
+		#body.friction = frogFriction
 	pass # replace with function body
