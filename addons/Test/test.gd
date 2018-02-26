@@ -1,9 +1,16 @@
-tool
+#tool
 extends Node2D
 
 var pixelsPerSpring = 4
 
 var _width = 1024 setget _private, _private
+
+var Tension = 0.025; 
+var Dampening = 0.025;
+var Spread = 0.25;
+
+var Spring = preload("res://addons/Test/waterColumn.gd")
+
 func _private(value = null):
 	print("Invalid access to private variable!")
 	return value
@@ -11,7 +18,7 @@ func _private(value = null):
 var width setget set_width, get_width
 
 var springs
-
+var polyNode
 
 func _ready():
 	
@@ -36,9 +43,81 @@ func set_width(w):
 	_refresh_child()
 	pass
 
+func _refresh_child():
+	if get_viewport() == null:
+		# We don't yet have a viewport.
+		return
+	
+	springs = []
+	
+	if not has_node("Polygon"):
+		var polyNode = Polygon2D.new()
+		polyNode.set_name("Polygon")
+		add_child(polyNode)
+	
+	var poly = PoolVector2Array()
+	
+	#var s = spring.new()
+	for i in range(0,_width/pixelsPerSpring+1):
+		var y = sin(i*pixelsPerSpring/100.0)*50
+		poly.append(Vector2(0+pixelsPerSpring*i,y))
+		springs.append(Spring.new())
+		springs[i].Height = y
+	
+	poly.append(Vector2(_width,400))
+	poly.append(Vector2(0,400))
+	
+	
+	polyNode = get_node("Polygon")
+	
+	polyNode.polygon = poly
+	
+	pass
+
+func _input(event):
+	
+	if event.is_action_pressed("Jump"):
+		springs[100].Height = 200.0
+		pass
+	pass
+
 func _process(delta):
-	var left_deltas
-	var right_deltas
+#	if true:
+	#if not Engine.iseditor_hint():
+		#for spring in springs:
+			
+		#	pass
+	var lDeltas = []
+	var rDeltas = []
+		
+	for i in range(0,_width/pixelsPerSpring+1):
+		springs[i].Update(Dampening, Tension)
+		polyNode.polygon[i].y = springs[i].Height
+		lDeltas[i]=0
+		rDeltas[i]=0
+		pass
+	
+		
+	for loops in range(0,8):
+		for i in range(0,len(springs)):
+			if i > 0:
+				lDeltas[i] = Spread * (springs[i].Height - springs[i - 1].Height);
+				springs[i - 1].Speed += lDeltas[i];
+				pass
+			if i < springs.Length - 1:
+				rDeltas[i] = Spread * (springs[i].Height - springs[i + 1].Height);
+				springs[i + 1].Speed += rDeltas[i];
+			pass
+		
+		for i in range(0,len(springs)):
+			if (i > 0):
+				springs[i - 1].Height += lDeltas[i];
+			if (i < springs.Length - 1):
+				springs[i + 1].Height += rDeltas[i];
+			pass
+		pass
+	
+	
 	
 #	for (int j = 0; j < 8; j++)
 #			{
@@ -67,107 +146,7 @@ func _process(delta):
 #					}
 #				}
 #
-#				for (int i = 0; i < columns.Length; i++)
-#				{
-#					if (i > 0)
-#						columns[i - 1].Height += lDeltas[i];
-#					if (i < columns.Length - 1)
-#						columns[i + 1].Height += rDeltas[i];
-#				}
-#			}
-#					}
-#				}
-#
-#				for (int i = 0; i < columns.Length; i++)
-#				{
-#					if (i > 0)
-#						columns[i - 1].Height += lDeltas[i];
-#					if (i < columns.Length - 1)
-#						columns[i + 1].Height += rDeltas[i];
-#				}
-#			}
-#					}
-#				}
-#
-#				for (int i = 0; i < columns.Length; i++)
-#				{
-#					if (i > 0)
-#						columns[i - 1].Height += lDeltas[i];
-#					if (i < columns.Length - 1)
-#						columns[i + 1].Height += rDeltas[i];
-#				}
-#			}
-#					}
-#				}
-#
-#				for (int i = 0; i < columns.Length; i++)
-#				{
-#					if (i > 0)
-#						columns[i - 1].Height += lDeltas[i];
-#					if (i < columns.Length - 1)
-#						columns[i + 1].Height += rDeltas[i];
-#				}
-#			}
-#					}
-#				}
-#
-#				for (int i = 0; i < columns.Length; i++)
-#				{
-#					if (i > 0)
-#						columns[i - 1].Height += lDeltas[i];
-#					if (i < columns.Length - 1)
-#						columns[i + 1].Height += rDeltas[i];
-#				}
-#			}
-#					}
-#				}
-#
-#				for (int i = 0; i < columns.Length; i++)
-#				{
-#					if (i > 0)
-#						columns[i - 1].Height += lDeltas[i];
-#					if (i < columns.Length - 1)
-#						columns[i + 1].Height += rDeltas[i];
-#				}
-#			}
-#					}
-#				}
-#
-#				for (int i = 0; i < columns.Length; i++)
-#				{
-#					if (i > 0)
-#						columns[i - 1].Height += lDeltas[i];
-#					if (i < columns.Length - 1)
-#						columns[i + 1].Height += rDeltas[i];
-#				}
-#			}
-	pass
-
-func _refresh_child():
-	if get_viewport() == null:
-		# We don't yet have a viewport.
-		return
-	
-	if not has_node("Polygon"):
-		var polyNode = Polygon2D.new()
-		polyNode.set_name("Polygon")
-		add_child(polyNode)
-	
-	var poly = PoolVector2Array()
-	
-	poly.append(Vector2(_width,400))
-	poly.append(Vector2(0,400))
-	var spring = load("res://addons/Test/waterColumn.gd")
-
-	for i in range(0,_width/pixelsPerSpring):
-		springs[i] = spring.new()
-		poly.append(Vector2(0+pixelsPerSpring*i,0))
-	#	
-	#poly.append(Vector2(0,0))
-	#poly.append(Vector2(300,0))
-	
-	var polyNode = get_node("Polygon")
-	
-	polyNode.polygon = poly
-	
+	for i in range(0,_width/pixelsPerSpring+1):
+		polyNode.polygon[i].y = springs[i].Height
+		pass
 	pass
