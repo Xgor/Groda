@@ -5,7 +5,7 @@ var pixelsPerSpring = 4
 
 var _width = 1024 setget _private, _private
 
-var Tension = 0.025; 
+var Tension = 0.05; 
 var Dampening = 0.025;
 var Spread = 0.25;
 
@@ -62,7 +62,7 @@ func _refresh_child():
 		var y = sin(i*pixelsPerSpring/100.0)*50
 		poly.append(Vector2(0+pixelsPerSpring*i,y))
 		springs.append(Spring.new())
-		springs[i].Height = y
+		springs[i].Height = 0
 	
 	poly.append(Vector2(_width,400))
 	poly.append(Vector2(0,400))
@@ -73,6 +73,7 @@ func _refresh_child():
 	polyNode.polygon = poly
 	
 	pass
+
 
 func _input(event):
 	
@@ -93,18 +94,18 @@ func _process(delta):
 	for i in range(0,_width/pixelsPerSpring+1):
 		springs[i].Update(Dampening, Tension)
 		polyNode.polygon[i].y = springs[i].Height
-		lDeltas[i]=0
-		rDeltas[i]=0
+		lDeltas.append( 0)
+		rDeltas.append( 0)
 		pass
 	
-		
+	
 	for loops in range(0,8):
 		for i in range(0,len(springs)):
 			if i > 0:
 				lDeltas[i] = Spread * (springs[i].Height - springs[i - 1].Height);
 				springs[i - 1].Speed += lDeltas[i];
 				pass
-			if i < springs.Length - 1:
+			if i < len(springs) - 1:
 				rDeltas[i] = Spread * (springs[i].Height - springs[i + 1].Height);
 				springs[i + 1].Speed += rDeltas[i];
 			pass
@@ -112,40 +113,12 @@ func _process(delta):
 		for i in range(0,len(springs)):
 			if (i > 0):
 				springs[i - 1].Height += lDeltas[i];
-			if (i < springs.Length - 1):
+			if (i < len(springs) - 1):
 				springs[i + 1].Height += rDeltas[i];
 			pass
 		pass
 	
-	
-	
-#	for (int j = 0; j < 8; j++)
-#			{
-#				for (int i = 0; i < columns.Length; i++)
-#				{
-#					if (i > 0)
-#					{
-#						lDeltas[i] = Spread * (columns[i].Height - columns[i - 1].Height);
-#						columns[i - 1].Speed += lDeltas[i];
-#					}
-#					if (i < columns.Length - 1)
-#					{
-#						rDeltas[i] = Spread * (columns[i].Height - columns[i + 1].Height);
-#						columns[i + 1].Speed += rDeltas[i];
-#					}
-#				}
-#
-#				for (int i = 0; i < columns.Length; i++)
-#				{
-#					if (i > 0)
-#						columns[i - 1].Height += lDeltas[i];
-#					if (i < columns.Length - 1)
-#						columns[i + 1].Height += rDeltas[i];
-#				}
-#			}
-#					}
-#				}
-#
+
 	for i in range(0,_width/pixelsPerSpring+1):
 		polyNode.polygon[i].y = springs[i].Height
 		pass
